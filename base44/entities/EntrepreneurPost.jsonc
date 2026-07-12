@@ -1,0 +1,41 @@
+{
+  "name": "EntrepreneurPost",
+  "type": "object",
+  "properties": {
+    "content": {
+      "type": "string"
+    },
+    "image_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "author_name": {
+      "type": "string"
+    },
+    "author_avatar": {
+      "type": "string",
+      "format": "uri"
+    },
+    "post_type": {
+      "type": "string",
+      "enum": [
+        "experiencia",
+        "capacitacion",
+        "oportunidad"
+      ],
+      "default": "experiencia"
+    },
+    "likes_count": {
+      "type": "number",
+      "default": 0
+    },
+    "comments_count": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "content",
+    "author_name"
+  ]
+}

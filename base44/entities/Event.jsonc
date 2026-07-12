@@ -1,0 +1,65 @@
+{
+  "name": "Event",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "feria_laboral",
+        "charla",
+        "taller",
+        "actividad_comunitaria"
+      ]
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "location": {
+      "type": "string"
+    },
+    "image_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "organizer": {
+      "type": "string"
+    },
+    "max_attendees": {
+      "type": "number"
+    },
+    "attendees_count": {
+      "type": "number",
+      "default": 0
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proximo",
+        "en_curso",
+        "finalizado"
+      ],
+      "default": "proximo"
+    }
+  },
+  "required": [
+    "title",
+    "description",
+    "date",
+    "location"
+  ]
+}

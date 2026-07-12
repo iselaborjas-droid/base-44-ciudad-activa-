@@ -1,0 +1,92 @@
+{
+  "name": "Job",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "company_name": {
+      "type": "string"
+    },
+    "company_logo": {
+      "type": "string",
+      "format": "uri"
+    },
+    "description": {
+      "type": "string"
+    },
+    "requirements": {
+      "type": "string"
+    },
+    "benefits": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "district": {
+      "type": "string",
+      "enum": [
+        "collique",
+        "comas",
+        "lima_norte",
+        "otros"
+      ],
+      "default": "otros"
+    },
+    "modality": {
+      "type": "string",
+      "enum": [
+        "presencial",
+        "remoto",
+        "hibrido"
+      ]
+    },
+    "employment_type": {
+      "type": "string",
+      "enum": [
+        "tiempo_completo",
+        "medio_tiempo",
+        "temporal",
+        "practicas",
+        "freelance"
+      ]
+    },
+    "salary_min": {
+      "type": "number"
+    },
+    "salary_max": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "default": "PEN"
+    },
+    "category": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "activo",
+        "cerrado",
+        "pausado"
+      ],
+      "default": "activo"
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "applications_count": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "title",
+    "company_name",
+    "description",
+    "location"
+  ]
+}

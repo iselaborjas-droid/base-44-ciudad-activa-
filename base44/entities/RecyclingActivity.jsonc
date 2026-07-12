@@ -1,0 +1,37 @@
+{
+  "name": "RecyclingActivity",
+  "type": "object",
+  "properties": {
+    "activity_type": {
+      "type": "string",
+      "enum": [
+        "recoleccion",
+        "separacion",
+        "entrega",
+        "limpieza"
+      ]
+    },
+    "description": {
+      "type": "string"
+    },
+    "points_earned": {
+      "type": "number",
+      "default": 0
+    },
+    "location": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "image_url": {
+      "type": "string",
+      "format": "uri"
+    }
+  },
+  "required": [
+    "activity_type",
+    "description"
+  ]
+}

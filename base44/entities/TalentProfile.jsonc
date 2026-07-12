@@ -1,0 +1,80 @@
+{
+  "name": "TalentProfile",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string"
+    },
+    "full_name": {
+      "type": "string"
+    },
+    "avatar_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "bio": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "district": {
+      "type": "string",
+      "enum": [
+        "collique",
+        "comas",
+        "lima_norte",
+        "otros"
+      ],
+      "default": "otros"
+    },
+    "birth_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "experience_years": {
+      "type": "number",
+      "default": 0
+    },
+    "experience_summary": {
+      "type": "string"
+    },
+    "education": {
+      "type": "string"
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "certificates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "cv_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "availability": {
+      "type": "string",
+      "enum": [
+        "inmediata",
+        "1_semana",
+        "2_semanas",
+        "1_mes"
+      ],
+      "default": "inmediata"
+    },
+    "is_visible": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "user_id",
+    "full_name"
+  ]
+}

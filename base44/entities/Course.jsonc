@@ -1,0 +1,67 @@
+{
+  "name": "Course",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "instructor": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "duration_hours": {
+      "type": "number"
+    },
+    "modality": {
+      "type": "string",
+      "enum": [
+        "presencial",
+        "virtual",
+        "hibrido"
+      ]
+    },
+    "is_free": {
+      "type": "boolean",
+      "default": true
+    },
+    "price": {
+      "type": "number",
+      "default": 0
+    },
+    "image_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "has_certificate": {
+      "type": "boolean",
+      "default": true
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "activo",
+        "proximo",
+        "finalizado"
+      ],
+      "default": "activo"
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "enrolled_count": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "title",
+    "instructor",
+    "description"
+  ]
+}

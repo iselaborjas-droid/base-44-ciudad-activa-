@@ -1,0 +1,28 @@
+{
+  "name": "Enrollment",
+  "type": "object",
+  "properties": {
+    "course_id": {
+      "type": "string"
+    },
+    "course_title": {
+      "type": "string"
+    },
+    "progress": {
+      "type": "number",
+      "default": 0
+    },
+    "completed": {
+      "type": "boolean",
+      "default": false
+    },
+    "certificate_url": {
+      "type": "string",
+      "format": "uri"
+    }
+  },
+  "required": [
+    "course_id",
+    "course_title"
+  ]
+}

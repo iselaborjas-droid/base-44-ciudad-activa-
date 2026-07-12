@@ -1,0 +1,93 @@
+{
+  "name": "Business",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "logo_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "photos": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "description": {
+      "type": "string"
+    },
+    "history": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "restaurante",
+        "polleria",
+        "barberia",
+        "bodega",
+        "tienda",
+        "servicio_tecnico",
+        "emprendimiento"
+      ]
+    },
+    "location": {
+      "type": "string"
+    },
+    "district": {
+      "type": "string",
+      "enum": [
+        "collique",
+        "comas",
+        "lima_norte"
+      ],
+      "default": "collique"
+    },
+    "latitude": {
+      "type": "number"
+    },
+    "longitude": {
+      "type": "number"
+    },
+    "contact_phone": {
+      "type": "string"
+    },
+    "contact_email": {
+      "type": "string"
+    },
+    "social_facebook": {
+      "type": "string"
+    },
+    "social_instagram": {
+      "type": "string"
+    },
+    "hours": {
+      "type": "string"
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "plan": {
+      "type": "string",
+      "enum": [
+        "gratis",
+        "premium"
+      ],
+      "default": "gratis"
+    },
+    "rating": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "name",
+    "description",
+    "category",
+    "location"
+  ]
+}
