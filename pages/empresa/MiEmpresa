@@ -1,0 +1,199 @@
+import React, { useState, useEffect } from 'react';
+import { base44 } from '@/api/base44Client';
+import { useAuth } from '@/lib/AuthContext';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { Building2, Loader2, MapPin, Phone, Mail, Clock, Facebook, Instagram, Save } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
+
+export default function MiEmpresa() {
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [businessId, setBusinessId] = useState(null);
+  const [form, setForm] = useState({
+    name: '',
+    description: '',
+    history: '',
+    category: 'emprendimiento',
+    location: '',
+    district: 'collique',
+    contact_phone: '',
+    contact_email: '',
+    social_facebook: '',
+    social_instagram: '',
+    hours: '',
+    logo_url: '',
+  });
+
+  useEffect(() => {
+    async function load() {
+      if (!user) return;
+      const businesses = await base44.entities.Business.filter({ created_by_id: user.id }, '-created_date', 1);
+      if (businesses.length > 0) {
+        const b = businesses[0];
+        setBusinessId(b.id);
+        setForm({
+          name: b.name || '',
+          description: b.description || '',
+          history: b.history || '',
+          category: b.category || 'emprendimiento',
+          location: b.location || '',
+          district: b.district || 'collique',
+          contact_phone: b.contact_phone || '',
+          contact_email: b.contact_email || '',
+          social_facebook: b.social_facebook || '',
+          social_instagram: b.social_instagram || '',
+          hours: b.hours || '',
+          logo_url: b.logo_url || '',
+        });
+      } else {
+        setForm(f => ({ ...f, name: user?.full_name || '' }));
+      }
+      setLoading(false);
+    }
+    load();
+  }, [user]);
+
+  const set = (key, val) => setForm(f => ({ ...f, [key]: val }));
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (!form.name || !form.description) {
+      toast({ title: 'Completa los campos requeridos', variant: 'destructive' });
+      return;
+    }
+    setSaving(true);
+    try {
+      if (businessId) {
+        await base44.entities.Business.update(businessId, form);
+      } else {
+        const created = await base44.entities.Business.create({ ...form, plan: 'gratis' });
+        setBusinessId(created.id);
+      }
+      toast({ title: 'Perfil guardado', description: 'La información de tu empresa se actualizó correctamente.' });
+    } catch (err) {
+      toast({ title: 'Error', description: err.message, variant: 'destructive' });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-24">
+        <div className="w-8 h-8 border-4 border-muted border-t-foreground rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-2xl mx-auto px-4 py-6 md:px-8 md:py-8 space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-foreground">Mi Empresa</h1>
+        <p className="text-sm text-muted-foreground mt-1">Gestiona el perfil de tu empresa o emprendimiento</p>
+      </div>
+
+      <form onSubmit={handleSave} className="space-y-5">
+        {/* Logo Preview */}
+        <div className="bg-card rounded-2xl border border-border p-5 flex items-center gap-4">
+          <div className="w-20 h-20 rounded-2xl bg-secondary flex items-center justify-center overflow-hidden flex-shrink-0">
+            {form.logo_url ? (
+              <img src={form.logo_url} alt="Logo" className="w-full h-full object-cover" />
+            ) : (
+              <Building2 className="w-10 h-10 text-muted-foreground" strokeWidth={1} />
+            )}
+          </div>
+          <div className="flex-1">
+            <Label className="text-xs">URL del logo</Label>
+            <Input value={form.logo_url} onChange={e => set('logo_url', e.target.value)} placeholder="https://..." className="h-10 mt-1" />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label>Nombre de la empresa *</Label>
+          <Input value={form.name} onChange={e => set('name', e.target.value)} className="h-11" required />
+        </div>
+
+        <div className="space-y-2">
+          <Label>Descripción *</Label>
+          <Textarea value={form.description} onChange={e => set('description', e.target.value)} placeholder="¿Qué hace tu empresa? ¿Qué servicios ofrece?" className="min-h-[80px]" required />
+        </div>
+
+        <div className="space-y-2">
+          <Label>Historia</Label>
+          <Textarea value={form.history} onChange={e => set('history', e.target.value)} placeholder="Cuéntanos cómo empezó tu empresa..." className="min-h-[80px]" />
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-2">
+            <Label>Categoría</Label>
+            <Select value={form.category} onValueChange={v => set('category', v)}>
+              <SelectTrigger className="h-11"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="restaurante">Restaurante</SelectItem>
+                <SelectItem value="polleria">Pollería</SelectItem>
+                <SelectItem value="barberia">Barbería</SelectItem>
+                <SelectItem value="bodega">Bodega</SelectItem>
+                <SelectItem value="tienda">Tienda</SelectItem>
+                <SelectItem value="servicio_tecnico">Servicio técnico</SelectItem>
+                <SelectItem value="emprendimiento">Emprendimiento</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label>Distrito</Label>
+            <Select value={form.district} onValueChange={v => set('district', v)}>
+              <SelectTrigger className="h-11"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="collique">Collique</SelectItem>
+                <SelectItem value="comas">Comas</SelectItem>
+                <SelectItem value="lima_norte">Lima Norte</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label>Ubicación</Label>
+          <Input value={form.location} onChange={e => set('location', e.target.value)} placeholder="Dirección completa" className="h-11" />
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-2">
+            <Label>Teléfono</Label>
+            <Input value={form.contact_phone} onChange={e => set('contact_phone', e.target.value)} placeholder="999 888 777" className="h-11" />
+          </div>
+          <div className="space-y-2">
+            <Label>Correo</Label>
+            <Input value={form.contact_email} onChange={e => set('contact_email', e.target.value)} placeholder="empresa@email.com" className="h-11" />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label>Horarios</Label>
+          <Input value={form.hours} onChange={e => set('hours', e.target.value)} placeholder="Lun-Sáb 9am-8pm" className="h-11" />
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-2">
+            <Label>Facebook</Label>
+            <Input value={form.social_facebook} onChange={e => set('social_facebook', e.target.value)} placeholder="https://facebook.com/..." className="h-11" />
+          </div>
+          <div className="space-y-2">
+            <Label>Instagram</Label>
+            <Input value={form.social_instagram} onChange={e => set('social_instagram', e.target.value)} placeholder="https://instagram.com/..." className="h-11" />
+          </div>
+        </div>
+
+        <Button type="submit" className="w-full h-12 rounded-xl" disabled={saving}>
+          {saving ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Guardando...</> : <><Save className="w-4 h-4 mr-2" /> Guardar perfil</>}
+        </Button>
+      </form>
+    </div>
+  );
+}
